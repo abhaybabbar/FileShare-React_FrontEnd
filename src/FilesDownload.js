@@ -27,9 +27,7 @@ const FilesDownload = () => {
   const getData = async () => {
     const response = await fetch(`${constantsVariable.backendBaseURl}/${slug}`);
     const data = await response.json();
-    console.log("data", data);
     if (response.status === 200) {
-      console.log(data);
       setData(data);
     } else if (response.status === 404) {
       setIsAvailable(false);
@@ -41,14 +39,14 @@ const FilesDownload = () => {
   }, []);
 
   const getFileName = (filePath) => {
-    return filePath.split("/")[3];
+    var filePathArr = filePath.split("/");
+    return filePathArr[filePathArr.length - 1];
   };
 
-  const downloadFile = (filePath) => {
-    saveAs(
-      `${constantsVariable.backendBaseURl}${filePath}`,
-      getFileName(filePath)
-    );
+  const downloadFile = async (filePath) => {
+    fetch(filePath)
+      .then((res) => res.blob())
+      .then((blob) => saveAs(blob, getFileName(filePath)));
   };
 
   const downloadAll = () => {
@@ -65,9 +63,9 @@ const FilesDownload = () => {
         {!isAvailable ? (
           <Page404>
             <NotFoundImage src={notFound} alt="404 Not Found..." />
-            <UploadButton>
-              <Link to="/">Home</Link>
-            </UploadButton>
+            <Link to="/">
+              <UploadButton>Home</UploadButton>
+            </Link>
           </Page404>
         ) : !(data === null) ? (
           <Content>
