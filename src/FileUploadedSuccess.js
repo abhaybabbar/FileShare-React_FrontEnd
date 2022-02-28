@@ -41,6 +41,7 @@ const Uploaded = styled.div`
 `;
 const Text = styled.p`
   font-size: 22px;
+  text-align: center;
 `;
 
 const ShareLink = styled.input`

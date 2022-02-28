@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { AiFillFileAdd, AiFillCloseCircle } from "react-icons/ai";
 import constantsVar from "./constants";
 import FileUploadedSuccess from "./FileUploadedSuccess";
+import uploading from "./assets/uploading.gif";
 import Footer from "./Footer";
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
   const [haveFiles, setHaveFiles] = useState(false);
   const [uploadedData, setUplaodedData] = useState(null);
   const [totalFilesSize, setTotalFileSize] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
   const hiddenFileInput = useRef(null);
   const textAreaInput = useRef(null);
 
@@ -56,6 +58,7 @@ function App() {
   };
 
   const handleServerUpload = async () => {
+    setIsUploading(true);
     const formData = new FormData();
     console.log("---------------");
     for (let i = 0; i < files.length; i++) {
@@ -81,6 +84,7 @@ function App() {
     } catch (e) {
       console.log(e);
     }
+    setIsUploading(false);
   };
 
   return (
@@ -100,6 +104,8 @@ function App() {
                 <AiFillFileAdd size={60} className="fileicon" />
                 <InitialText>Start By Adding Some Files</InitialText>
               </DropContainer>
+            ) : isUploading ? (
+              <img src={uploading} alt="Uploading.." />
             ) : (
               <HaveFiles>
                 <AlternateDropContainer>
@@ -192,12 +198,20 @@ const MainContainer = styled.div`
   border-radius: 20px;
   padding: 20px;
   overflow-y: auto;
+
+  @media (max-width: 1200px) {
+    width: 70%;
+  }
+
+  @media (max-width: 600px) {
+    width: 95%;
+  }
 `;
 
 const DropContainer = styled.div`
   border: 3px dashed ${constantsVar.mainColor};
   height: 100%;
-  width: 80%;
+  width: 90%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -215,6 +229,9 @@ const AlternateDropContainer = styled.div`
 const CloseIcon = styled(AiFillCloseCircle)`
   display: none;
   cursor: pointer;
+  @media (max-width: 600px) {
+    display: block;
+  }
 `;
 
 const FilesDetail = styled.div`
@@ -241,6 +258,7 @@ const FileDetail = styled.div`
 
 const FileName = styled.p`
   font-size: 17px;
+  word-break: break-all;
 `;
 const FileSize = styled.p`
   font-size: 14px;

@@ -1,11 +1,15 @@
 import React from "react";
 import { AiFillHeart } from "react-icons/ai";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
     <Text>
-      Made with <AiFillHeart size={28} /> by Abhay{" "}
+      Made with <AiFillHeart size={28} /> by{" "}
+      <Author href="https://www.linkedin.com/in/babbarabhay/" target="_blank">
+        Abhay
+      </Author>
     </Text>
   );
 };
@@ -18,4 +22,8 @@ const Text = styled.p`
   display: flex;
   gap: 3px;
   align-items: center;
+`;
+
+const Author = styled.a`
+  text-decoration: underline;
 `;
